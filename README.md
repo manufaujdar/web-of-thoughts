@@ -1,8 +1,26 @@
 # Web of Thoughts
 
-Web of Thoughts (WoT) is an experimental prompting and inference framework for solving complex problems through a **typed, multidimensional network of candidate thoughts**. It extends linear chains and branching trees with explicit relations among ideas: support, contradiction, dependency, refinement, analogy, evidence, and synthesis.
+Web of Thoughts (WoT) is an experimental prompting and inference framework—and now a functional real-time application—for solving complex problems through a **typed, multidimensional network of candidate thoughts**. It extends linear chains and branching trees with explicit relations among ideas: support, contradiction, dependency, refinement, analogy, evidence, and synthesis.
 
-This repository is a research foundation, not a claim of proven superiority. Its purpose is to turn the idea into a precise, testable method whose accuracy, cost, latency, robustness, and failure modes can be compared with simpler baselines.
+This repository is a local-first research foundation, not a claim of proven superiority or a production-ready autonomous system. Its purpose is to turn the idea into a precise, testable method whose accuracy, cost, latency, robustness, and failure modes can be compared with simpler baselines.
+
+> **Evidence status:** functional research prototype, unvalidated method. No completed evaluation in this repository establishes that WoT outperforms direct prompting, Chain of Thought, Tree of Thoughts, or Graph of Thoughts.
+
+## Live application
+
+The included application runs six role-specific OpenAI agents, streams their work in real time, connects their public decision artifacts through typed graph edges, performs cross-agent peer review, and asks a master evaluator to compare all viable possibilities before answering. Production code has no canned-response fallback: a run requires a server-side `OPENAI_API_KEY` and uses the OpenAI Responses API.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e '.[dev]'
+cd frontend && npm install && npm run build && cd ..
+
+export OPENAI_API_KEY='your-key' # keep this local
+wot-server
+```
+
+Open `http://127.0.0.1:8000`. See the [application guide](docs/09-application.md) for Docker, API, persistence, privacy, and live-smoke details.
 
 ## Core hypothesis
 
@@ -26,11 +44,19 @@ The word **web** refers to this controlled network. It does not mean exhaustive 
 - [`docs/03-research-landscape.md`](docs/03-research-landscape.md) — intellectual context and differentiation
 - [`docs/04-evaluation.md`](docs/04-evaluation.md) — benchmarks, baselines, metrics, ablations, and validity rules
 - [`docs/05-roadmap.md`](docs/05-roadmap.md) — staged research plan
+- [`docs/06-research-boundaries.md`](docs/06-research-boundaries.md) — supported use, safety, privacy, and deployment limits
+- [`docs/07-provenance.md`](docs/07-provenance.md) — model, prompt, task, and evidence provenance
+- [`docs/08-validation-protocol.md`](docs/08-validation-protocol.md) — deterministic quality gates and release checks
+- [`docs/09-application.md`](docs/09-application.md) — live application architecture, setup, API, persistence, and deployment boundary
 - [`docs/glossary.md`](docs/glossary.md) — stable terminology
 - [`prompts/`](prompts) — modular prompt templates
 - [`schemas/run.schema.json`](schemas/run.schema.json) — experiment record contract
 - [`experiments/README.md`](experiments/README.md) — experiment naming and reporting conventions
+- [`templates/`](templates) — model-card and dataset-card templates
+- [`wot_app/`](wot_app) — FastAPI, OpenAI, orchestration, streaming, and SQLite backend
+- [`frontend/`](frontend) — responsive React/TypeScript research workbench
 - [`CONTRIBUTING.md`](CONTRIBUTING.md) — standards for changing the technique
+- [`GOVERNANCE.md`](GOVERNANCE.md) and [`SECURITY.md`](SECURITY.md) — decision and security processes
 
 ## Minimal WoT loop
 
@@ -48,9 +74,24 @@ At every iteration, the controller asks: **Which next operation has the highest 
 4. Save the result using [`experiments/run-template.md`](experiments/run-template.md) and validate metadata against the JSON schema.
 5. Compare task quality and total resource use; do not report quality without cost and latency.
 
+## Validate the repository
+
+The repository includes deterministic structural checks and synthetic tests:
+
+```bash
+python3 tools/validate_repository.py
+python3 -m unittest discover -s tests -v
+python3 -m compileall -q wot_app tools tests
+npm ci --prefix frontend
+npm run build --prefix frontend
+git diff --check
+```
+
+Install `.[dev]` to enable complete JSON Schema validation through `jsonschema`. Passing these checks means the repository and run records are structurally admissible; it is not evidence that an experiment is fair or that WoT is effective.
+
 ## Current status
 
-**Phase 0 — specification.** The framework below is a falsifiable proposal. Names, operators, scoring formulas, and default thresholds are versioned hypotheses until experiments support them.
+**Prototype implementation; Phase-0 evidence.** The system is executable, but the method remains a falsifiable proposal. Names, operators, scoring formulas, role topology, and defaults are versioned hypotheses until controlled experiments support them. A working interface is not evidence of superior reasoning.
 
 ## Research principles
 
@@ -63,3 +104,12 @@ At every iteration, the controller asks: **Which next operation has the highest 
 - Preserve final rationale and evidence, not private hidden reasoning traces.
 - Report negative and null results.
 
+## Responsible research
+
+Use synthetic or explicitly redistributable fixtures by default. Do not commit credentials, private conversations, personal or regulated data, proprietary prompts, restricted benchmarks, raw provider logs, unverified model weights, or private hidden reasoning. Treat model and tool output as untrusted and externally verify consequential claims.
+
+See the [research boundaries](docs/06-research-boundaries.md), [provenance policy](docs/07-provenance.md), and [security policy](SECURITY.md) before integrating external models, datasets, evaluators, or tools.
+
+## License and citation
+
+Web of Thoughts is licensed under the [Apache License 2.0](LICENSE). Use [`CITATION.cff`](CITATION.cff) and cite the exact version or commit used; repository structure and citation do not imply scientific validation.

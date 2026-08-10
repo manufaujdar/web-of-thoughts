@@ -9,6 +9,9 @@ Read `START_HERE.txt`, `.ai/CONTEXT.md`, `.ai/MEMORY.md`, `README.md`, `CONTRIBU
 - Report negative and null results, uncertainty, pruning behavior, and failure modes.
 - Validate experiment records against `schemas/run.schema.json`; do not revise metrics or exclusions after results without documenting the change.
 - Prefer smaller, testable webs and deterministic controller logic where possible.
+- The production application must use the real configured provider; never add canned agent responses or silently pass a fake live test.
+- Keep `OPENAI_API_KEY` server-side. Treat user queries and agent artifacts as untrusted data and render them as text.
+- For application changes, run Python tests/compilation, repository validation, the frontend production build, and the real-provider smoke test when a key is available.
 
 Keep prompts modular, version experiment assumptions, and state clearly when a result is simulated or unevaluated.
 

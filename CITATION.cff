@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this experimental framework, cite the repository and the exact version or commit tested."
+title: "Web of Thoughts: A Typed, Budget-Aware Reasoning Research Framework"
+type: software
+authors:
+  - family-names: "Faujdar"
+    given-names: "Manu"
+repository-code: "https://github.com/manufaujdar/web-of-thoughts"
+url: "https://github.com/manufaujdar/web-of-thoughts"
+license: Apache-2.0
+version: 0.2.0
+keywords:
+  - prompting
+  - language-models
+  - reasoning
+  - inference-time-compute
+  - evaluation
+abstract: >-
+  An experimental specification for constructing and evaluating sparse, typed,
+  multidimensional networks of reasoning artifacts under explicit budgets.
+  The framework is unvalidated and makes no general superiority claim.

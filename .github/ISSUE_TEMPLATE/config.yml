@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Private security report
+    url: https://github.com/manufaujdar/web-of-thoughts/security
+    about: Report vulnerabilities or exposed sensitive material privately when the repository Security tab is available.

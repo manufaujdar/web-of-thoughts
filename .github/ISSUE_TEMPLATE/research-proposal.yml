@@ -1,0 +1,42 @@
+name: Research proposal
+description: Propose a falsifiable mechanism or experiment before evaluating results.
+title: "[Research]: "
+labels: [research]
+body:
+  - type: textarea
+    id: failure
+    attributes:
+      label: Failure mode and task population
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Directional hypothesis and mechanism
+    validations:
+      required: true
+  - type: textarea
+    id: falsifier
+    attributes:
+      label: Result that would count against the proposal
+    validations:
+      required: true
+  - type: textarea
+    id: design
+    attributes:
+      label: Baselines, matched budgets, metrics, ablations, and trial plan
+    validations:
+      required: true
+  - type: textarea
+    id: risks
+    attributes:
+      label: Validity, safety, privacy, and provenance risks
+    validations:
+      required: true
+  - type: checkboxes
+    id: preregistration
+    attributes:
+      label: Claim discipline
+      options:
+        - label: This proposal is being recorded before inspecting confirmatory results.
+          required: true

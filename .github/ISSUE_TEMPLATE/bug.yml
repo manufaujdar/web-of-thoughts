@@ -1,0 +1,40 @@
+name: Validation or tooling bug
+description: Report a reproducible defect without including secrets or restricted data.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: "Do not include credentials, personal data, proprietary prompts, or hidden reasoning traces."
+  - type: input
+    id: commit
+    attributes:
+      label: Commit or version
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior and minimal reproduction
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Python version, and commands run.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Data safety
+      options:
+        - label: I removed credentials, private data, restricted artifacts, and hidden reasoning.
+          required: true
