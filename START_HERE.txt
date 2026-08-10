@@ -1,0 +1,31 @@
+WEB OF THOUGHTS — HUMAN START PAGE
+==================================
+
+Status: experimental specification. Superiority over simpler methods is unproven.
+
+READ FIRST
+----------
+
+1. README.md
+2. docs/00-concept.md
+3. docs/02-protocol.md
+4. docs/04-evaluation.md
+5. experiments/README.md
+
+HUMAN WORK
+----------
+
+Use docs/ for the method and evaluation design, experiments/ for run records, and
+prompts/ for technical prompt components. Markdown documents render directly in
+Codex/GitHub; formal reports can be exported to DOCX or PDF when needed.
+
+Do not record private hidden model reasoning. Preserve concise rationale, evidence,
+decisions, budgets, results, failures, and uncertainty.
+
+AI-agent instructions and memory are in AGENTS.md and .ai/.
+
+STARTUP TEAM
+------------
+
+For idea-to-release work, ask the agent to use the roster and explicit gears in
+.ai/TEAM.md. Matched-budget evaluation and evidence rules still apply.

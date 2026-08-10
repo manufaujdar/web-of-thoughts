@@ -1,0 +1,4 @@
+interface:
+  display_name: "WoT Experiment Design"
+  short_description: "Design budget-matched Web of Thoughts tests"
+  default_prompt: "Use $wot-design-experiment to design a falsifiable budget-matched experiment."

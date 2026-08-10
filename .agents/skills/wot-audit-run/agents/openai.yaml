@@ -1,0 +1,4 @@
+interface:
+  display_name: "WoT Run Audit"
+  short_description: "Audit Web of Thoughts run evidence"
+  default_prompt: "Use $wot-audit-run to independently audit this run and its claimed result."
