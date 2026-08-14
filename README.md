@@ -1,5 +1,8 @@
 # Web of Thoughts
 
+Read the [documentation map](docs/README.md) before changing hypotheses,
+budgets, operators, run schemas, evaluation, or claims.
+
 Web of Thoughts (WoT) is an experimental prompting and inference framework—and now a functional real-time application—for solving complex problems through a **typed, multidimensional network of candidate thoughts**. It extends linear chains and branching trees with explicit relations among ideas: support, contradiction, dependency, refinement, analogy, evidence, and synthesis.
 
 This repository is a local-first research foundation, not a claim of proven superiority or a production-ready autonomous system. Its purpose is to turn the idea into a precise, testable method whose accuracy, cost, latency, robustness, and failure modes can be compared with simpler baselines.
@@ -113,3 +116,5 @@ See the [research boundaries](docs/06-research-boundaries.md), [provenance polic
 ## License and citation
 
 Web of Thoughts is licensed under the [Apache License 2.0](LICENSE). Use [`CITATION.cff`](CITATION.cff) and cite the exact version or commit used; repository structure and citation do not imply scientific validation.
+The source-only privacy and self-hosting boundary is in
+[`PRIVACY_AND_DATA_BOUNDARY.md`](PRIVACY_AND_DATA_BOUNDARY.md).

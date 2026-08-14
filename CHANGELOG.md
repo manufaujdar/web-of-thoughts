@@ -6,6 +6,7 @@ All notable changes will be documented here. Versions describe repository artifa
 
 ### Added
 
+- Added `PRIVACY_AND_DATA_BOUNDARY.md` to distinguish the Apache-2.0 source license from provider, storage, and hosted-service privacy obligations.
 - Functional FastAPI/OpenAI multi-agent backend with bounded parallel specialists, cross-review, master synthesis, cancellation, and safe error mapping.
 - Ordered replayable SSE events and local SQLite WAL persistence with retention and terminal-run deletion.
 - Responsive React/TypeScript frontend for role selection, live agent activity, typed thought-web inspection, final response, and history.
