@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "web-of-thoughts-research"
+version = "0.2.0"
+description = "A real-time multi-agent Web of Thoughts research application"
+readme = "README.md"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+authors = [{ name = "Web of Thoughts contributors" }]
+dependencies = [
+  "fastapi>=0.116,<1",
+  "openai>=2.20,<3",
+  "pydantic>=2.11,<3",
+  "uvicorn[standard]>=0.35,<1"
+]
+
+[project.optional-dependencies]
+dev = ["httpx>=0.28,<1", "jsonschema>=4.23,<5"]
+
+[project.scripts]
+wot-validate = "tools.validate_repository:main"
+wot-server = "wot_app.cli:main"
+
+[tool.setuptools]
+packages = ["tools", "wot_app"]

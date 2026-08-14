@@ -1,0 +1,44 @@
+{
+  "spec_version": "0.1.0",
+  "run_id": "fixture-direct-model-1-1",
+  "task_id": "fixture-task-1",
+  "method": "direct",
+  "timestamp_utc": "2026-08-10T12:00:00Z",
+  "model": {
+    "provider": "synthetic",
+    "name": "fixture-model",
+    "version": "1",
+    "temperature": 0,
+    "seed": 1
+  },
+  "budget": {
+    "max_calls": 1,
+    "max_total_tokens": 1000,
+    "max_tool_calls": 0,
+    "max_wall_seconds": 60,
+    "verification_reserve_fraction": 0
+  },
+  "configuration": {
+    "dimensions": [],
+    "operators": [],
+    "scheduler_version": "not-applicable",
+    "prompt_hashes": { "direct": "synthetic-fixture-not-a-real-hash" }
+  },
+  "usage": {
+    "calls": 1,
+    "input_tokens": 100,
+    "output_tokens": 50,
+    "tool_calls": 0,
+    "wall_seconds": 1,
+    "cost_usd": 0,
+    "nodes_created": 0,
+    "edges_created": 0
+  },
+  "result": {
+    "status": "success",
+    "termination_reason": "bypassed",
+    "primary_score": 1,
+    "answer_path": null,
+    "notes": "Synthetic structural fixture; not experimental evidence."
+  }
+}

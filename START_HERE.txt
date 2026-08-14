@@ -2,6 +2,7 @@ WEB OF THOUGHTS — HUMAN START PAGE
 ==================================
 
 Status: experimental specification. Superiority over simpler methods is unproven.
+Application: functional local-first prototype. Live runs require OPENAI_API_KEY.
 
 READ FIRST
 ----------
@@ -11,6 +12,7 @@ READ FIRST
 3. docs/02-protocol.md
 4. docs/04-evaluation.md
 5. experiments/README.md
+6. docs/09-application.md
 
 HUMAN WORK
 ----------
@@ -23,6 +25,13 @@ Do not record private hidden model reasoning. Preserve concise rationale, eviden
 decisions, budgets, results, failures, and uncertainty.
 
 AI-agent instructions and memory are in AGENTS.md and .ai/.
+
+RUN THE APPLICATION
+-------------------
+
+Build the React frontend, configure OPENAI_API_KEY only on the server, and run
+`wot-server`. Full setup, Docker, API, privacy, and smoke-test instructions are
+in docs/09-application.md. The UI and runtime do not establish scientific validity.
 
 STARTUP TEAM
 ------------
