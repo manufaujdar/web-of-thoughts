@@ -1,6 +1,6 @@
 # Web of Thoughts
 
-Web of Thoughts (WoT) is an experimental prompting and inference framework—and now a functional real-time application—for solving complex problems through a **typed, multidimensional network of candidate thoughts**. It extends linear chains and branching trees with explicit relations among ideas: support, contradiction, dependency, refinement, analogy, evidence, and synthesis.
+Complex problems often need more than one candidate answer, but a larger prompt or a hidden reasoning trace does not make the process inspectable. Web of Thoughts (WoT) is an experimental framework for representing candidate ideas as a typed, multidimensional network with explicit relations such as support, contradiction, dependency, refinement, analogy, evidence, and synthesis. The included application turns that model into a bounded research workbench with multi-agent exploration, peer review, and evaluation records.
 
 This repository is a local-first research foundation, not a claim of proven superiority or a production-ready autonomous system. Its purpose is to turn the idea into a precise, testable method whose accuracy, cost, latency, robustness, and failure modes can be compared with simpler baselines.
 
