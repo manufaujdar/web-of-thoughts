@@ -11,3 +11,13 @@
 - Limitation: `OPENAI_API_KEY` is absent in this environment, so the real paid-provider smoke test is implemented but not yet run. Do not describe live model execution as verified until it passes.
 - Environment-gated checks: interactive browser inspection could not run because the browser-control runtime is unavailable; Docker image build could not run because the Docker daemon is stopped.
 - Exact next action: set `OPENAI_API_KEY` server-side and run `python3 tools/live_smoke.py`, then start the app for human browser review. Restore or create the GitHub remote before publishing.
+
+
+## Completed local tooling — Spec Kit (2026-10-03)
+
+Pinned v1.1.0 core + bug/assess Codex skills installed. Read .specify/INTEGRATION.md;
+existing tracker/role/privacy/human gates retain authority. Hashes, 18 commands,
+links, JSON, Bash and local-root checks pass; disposable feature/plan/tasks and
+external/traversal/symlink negative checks pass. No application/runtime or hosted
+change. Active role: local tooling release/handoff. Next owner: selected project
+product/engineering owner for an authorized task. Existing approval gates apply.
