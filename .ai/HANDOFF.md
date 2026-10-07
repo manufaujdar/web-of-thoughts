@@ -21,3 +21,14 @@ links, JSON, Bash and local-root checks pass; disposable feature/plan/tasks and
 external/traversal/symlink negative checks pass. No application/runtime or hosted
 change. Active role: local tooling release/handoff. Next owner: selected project
 product/engineering owner for an authorized task. Existing approval gates apply.
+
+
+## Oil UI local pass — 2026-10-07
+
+- Objective: implement minimal UI/UX corrections under the authorized portfolio request; existing trackers and unrelated work preserved.
+- Files: frontend/src/App.tsx; frontend/src/styles.css.
+- Result: Retain deselected agents, recover missing runs, follow hash navigation and expose cancellation/copy errors.
+- Verification: TypeScript/Vite build and synthetic selection/missing-run/hash/reflow pass.
+- Coverage/limits: Full SSE/reconnect/cancel/history journey and authorized live-provider smoke remain unverified.
+- Evidence and upstream provenance: [portfolio report](../../UI_UX_REVIEW_2026-10-07.md), [Oil UI method/helper](../../resources/code-review/OIL_UI_REVIEW.md). This is an affected UI slice, not a renewed whole-repository audit.
+- Active gear: release review. Next owner: Experience/runtime owner. No new approval pending for these local edits; existing release/governance gates remain. No commit, push, deployment, provider call or publication.

@@ -2,3 +2,6 @@
 /* Keep the hidden native checkbox discoverable when keyboard focus enters a role card. */
 .role-check { cursor: pointer; }
 .role-check:focus-within { outline: 3px solid #a96f3a; outline-offset: 3px; }
+
+.artifact,.final-copy,.history-list strong,.query-strip p{overflow-wrap:anywhere}.agent-column,.graph-wrap,.inspector,.history-list>button>span{min-width:0}.quiet,.accessible-list button{min-height:44px}.fineprint{font-size:13px}.role-check small{font-size:12px;line-height:1.5}.accessible-list{font-size:14px;line-height:1.5}.loading{padding:24px;text-align:center;gap:16px;align-content:center}.graph{overflow-x:auto}.run-meta{flex-wrap:wrap}
+@media(max-width:700px){.topbar{height:auto;min-height:78px;flex-wrap:wrap;gap:12px;padding-block:12px}.brand-mark{flex-shrink:0}.history-list>button{grid-template-columns:minmax(0,80px) minmax(0,1fr) 15px}}

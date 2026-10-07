@@ -12,7 +12,7 @@ function Composer({ agents, config, onCreate, busy }: { agents: Agent[]; config:
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<string[]>(agents.map(a => a.id));
   const [rounds, setRounds] = useState(2);
-  useEffect(() => { if (!selected.length && agents.length) setSelected(agents.map(a => a.id)); }, [agents, selected.length]);
+  useEffect(() => { setSelected(agents.map(a => a.id)); }, [agents]);
   const requiredCalls = selected.length * rounds + 1;
   function submit(event: FormEvent) { event.preventDefault(); if (query.trim() && selected.length >= 2) onCreate(query.trim(), selected, rounds); }
   return <form className="composer" onSubmit={submit}>
@@ -32,6 +32,7 @@ function Composer({ agents, config, onCreate, busy }: { agents: Agent[]; config:
         <span className="role-dot" /><span><strong>{agent.name}</strong><small>{agent.role}</small></span>
       </label>)}
     </div></fieldset>
+    <p className="fineprint" role="status">{selected.length < 2 ? "Select at least two specialists." : requiredCalls > (config?.max_calls || 20) ? "Reduce the team or collaboration depth to fit the call budget." : ""}</p>
     <button className="primary" disabled={busy || !config?.openai_configured || query.trim().length < 3 || selected.length < 2 || requiredCalls > (config?.max_calls || 20)}>{busy ? "Starting…" : "Build the thought web"}<span aria-hidden="true">→</span></button>
     <p className="fineprint">Outputs are experimental and may be wrong. Concise decision artifacts are shown—not private hidden reasoning.</p>
   </form>;
@@ -56,9 +57,10 @@ function Graph({ snapshot, selected, onSelect }: { snapshot: Snapshot; selected:
 }
 
 function RunWorkspace({ runId, agents, onExit }: { runId: string; agents: Agent[]; onExit: () => void }) {
+  const [error, setError] = useState("");
   const [run, setRun] = useState<Run | null>(null), [events, setEvents] = useState<RunEvent[]>([]), [streams, setStreams] = useState<Record<string,string>>({}), [finalStream, setFinalStream] = useState(""), [selected, setSelected] = useState<string|null>(null), [connection, setConnection] = useState("connecting");
   const source = useRef<EventSource|null>(null);
-  async function refresh() { setRun(await api.run(runId)); }
+  async function refresh() { try { setRun(await api.run(runId)); setError(""); } catch (e) { setError(e instanceof Error ? e.message : "Could not load this run"); } }
   useEffect(() => {
     refresh(); const es = new EventSource(`/api/v1/runs/${runId}/events`); source.current=es;
     es.onopen=()=>setConnection("live"); es.onerror=()=>setConnection("reconnecting");
@@ -66,24 +68,26 @@ function RunWorkspace({ runId, agents, onExit }: { runId: string; agents: Agent[
     types.forEach(type=>es.addEventListener(type,(raw)=>{ const event=JSON.parse((raw as MessageEvent).data) as RunEvent; setEvents(v=>[...v.slice(-119),event]); if(type==="agent.delta"){const p=event.payload as {agent_id:string;delta:string};setStreams(v=>({...v,[p.agent_id]:(v[p.agent_id]||"")+p.delta}));} if(type==="final.delta"){const p=event.payload as {delta:string};setFinalStream(v=>v+p.delta);} if(type==="run.completed"||type==="run.partial"||type==="run.failed"||type==="run.cancelled"){es.close();setConnection("closed");} if(type!=="agent.delta"&&type!=="final.delta") refresh(); }));
     return ()=>es.close();
   },[runId]);
-  if(!run) return <main className="loading">Connecting to the thought web…</main>;
+  if(!run) return <main className="loading"><div role="status">{error || "Connecting to the thought web…"}</div>{error && <div><button className="quiet" onClick={refresh}>Retry</button><button className="quiet" onClick={onExit}>Back to inquiries</button></div>}</main>;
   const snapshot=run.snapshot, node=snapshot.nodes.find(n=>n.id===selected);
   return <main className="workspace">
-    <header className="topbar"><button className="brand" onClick={onExit}><span className="brand-mark">W</span><span>Web of Thoughts<small>Research workbench</small></span></button><div className="run-meta"><Mark>{snapshot.status}</Mark><span className={`connection ${connection}`}>{connection}</span><span>{snapshot.model}</span>{!TERMINAL.has(snapshot.status)&&<button className="quiet danger" onClick={()=>api.cancel(runId)}>Cancel run</button>}</div></header>
+    <header className="topbar"><button className="brand" onClick={onExit}><span className="brand-mark">W</span><span>Web of Thoughts<small>Research workbench</small></span></button><div className="run-meta"><Mark>{snapshot.status}</Mark><span className={`connection ${connection}`}>{connection}</span><span>{snapshot.model}</span>{!TERMINAL.has(snapshot.status)&&<button className="quiet danger" onClick={()=>api.cancel(runId).catch(e=>setError(e.message))}>Cancel run</button>}</div></header>
+    {error && <div className="global-error" role="alert">{error}</div>}
     <section className="query-strip"><span className="eyebrow">Inquiry</span><p>{snapshot.query}</p><div className="usage"><span><strong>{snapshot.usage.calls}</strong> / {snapshot.usage.max_calls} calls</span><span><strong>{snapshot.usage.input_tokens + snapshot.usage.output_tokens}</strong> tokens</span></div></section>
     <div className="workspace-grid"><section className="agent-column"><div className="panel-heading"><div><span className="eyebrow">Council</span><h2>Specialists</h2></div></div>{snapshot.agents.map(agent=><button key={agent.id} className={`agent-card ${selected?.startsWith(agent.id)?"active":""}`} onClick={()=>{const related=[...snapshot.nodes].reverse().find(n=>n.agent_id===agent.id);if(related)setSelected(related.id)}} style={{"--accent":agent.accent} as React.CSSProperties}><span className="role-dot"/><span><strong>{agent.name}</strong><small>{streams[agent.id]?.slice(-100)||agent.role}</small></span><Mark>{agent.status||"queued"}</Mark></button>)}<div className="activity"><h3>Activity</h3><div aria-live="polite">{events.slice(-8).reverse().map(e=><p key={e.sequence}><time>{new Date(e.timestamp).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})}</time>{e.type.replaceAll("."," · ")}</p>)}</div></div></section>
       <Graph snapshot={snapshot} selected={selected} onSelect={setSelected}/>
       <aside className="inspector"><div className="panel-heading"><div><span className="eyebrow">Inspector</span><h2>{node?.label||"Select a node"}</h2></div></div>{node?<><div className="node-meta"><Mark>{node.status}</Mark><span>{node.type}</span></div><div className="artifact">{node.content}</div></>:<p className="empty">Choose any thought node or specialist to inspect its public decision artifact and provenance.</p>}</aside>
     </div>
-    {(snapshot.final_answer||finalStream)&&<section className="final"><div><span className="eyebrow">Master evaluation</span><h2>{snapshot.final_answer?"Final response":"Synthesizing…"}</h2><p className="termination">{snapshot.termination_reason?`Stopped: ${snapshot.termination_reason.replaceAll("_"," ")}`:"Evaluating the complete web"}</p></div><div className="final-copy">{snapshot.final_answer||finalStream}</div><button className="quiet" disabled={!snapshot.final_answer} onClick={()=>navigator.clipboard.writeText(snapshot.final_answer||"")}>Copy response</button></section>}
+    {(snapshot.final_answer||finalStream)&&<section className="final"><div><span className="eyebrow">Master evaluation</span><h2>{snapshot.final_answer?"Final response":"Synthesizing…"}</h2><p className="termination">{snapshot.termination_reason?`Stopped: ${snapshot.termination_reason.replaceAll("_"," ")}`:"Evaluating the complete web"}</p></div><div className="final-copy">{snapshot.final_answer||finalStream}</div><button className="quiet" disabled={!snapshot.final_answer} onClick={()=>navigator.clipboard.writeText(snapshot.final_answer||"").catch(()=>setError("Clipboard unavailable. Select and copy the response text."))}>Copy response</button></section>}
   </main>;
 }
 
 function History({ runs, onOpen }: { runs: Run[]; onOpen:(id:string)=>void }) { return <section className="history"><div className="section-title"><div><span className="eyebrow">Local record</span><h2>Recent inquiries</h2></div></div>{runs.length?<div className="history-list">{runs.map(run=><button key={run.id} onClick={()=>onOpen(run.id)}><Mark>{run.status}</Mark><span><strong>{run.query}</strong><small>{new Date(run.created_at).toLocaleString()} · {run.model}</small></span><span aria-hidden="true">→</span></button>)}</div>:<p className="empty">Completed and active runs will appear here.</p>}</section> }
 
 export default function App(){ const[config,setConfig]=useState<Config|null>(null),[agents,setAgents]=useState<Agent[]>([]),[runs,setRuns]=useState<Run[]>([]),[active,setActive]=useState<string|null>(()=>location.hash.slice(1)||null),[busy,setBusy]=useState(false),[error,setError]=useState("");
+  useEffect(()=>{const onHash=()=>setActive(location.hash.slice(1)||null);window.addEventListener("hashchange",onHash);return()=>window.removeEventListener("hashchange",onHash)},[]);
   useEffect(()=>{Promise.all([api.config(),api.agents(),api.runs()]).then(([c,a,r])=>{setConfig(c);setAgents(a);setRuns(r)}).catch(e=>setError(e.message))},[]);
-  function open(id:string|null){setActive(id);location.hash=id||"";if(!id)api.runs().then(setRuns)}
+  function open(id:string|null){setActive(id);location.hash=id||"";if(!id)api.runs().then(setRuns).catch(e=>setError(e.message))}
   async function create(q:string,ids:string[],rounds:number){try{setBusy(true);setError("");const result=await api.create(q,ids,rounds,ids.length*rounds+1);open(result.run_id)}catch(e){setError(e instanceof Error?e.message:"Could not start run")}finally{setBusy(false)}}
   if(active)return <RunWorkspace runId={active} agents={agents} onExit={()=>open(null)}/>;
   return <main><header className="home-nav"><div className="brand"><span className="brand-mark">W</span><span>Web of Thoughts<small>Experimental multi-agent reasoning</small></span></div><span className="local-pill">● Local persistence</span></header>{error&&<div className="global-error" role="alert">{error}</div>}<div className="home-grid"><Composer agents={agents} config={config} onCreate={create} busy={busy}/><div className="principle"><blockquote>“A useful web does not think more. It makes disagreement, evidence, and synthesis visible.”</blockquote><dl><div><dt>01</dt><dd><strong>Diverge</strong><span>Distinct roles generate functional alternatives.</span></dd></div><div><dt>02</dt><dd><strong>Connect</strong><span>Peer review exposes support and contradiction.</span></dd></div><div><dt>03</dt><dd><strong>Synthesize</strong><span>The master evaluates the full topology.</span></dd></div></dl></div></div><History runs={runs} onOpen={id=>open(id)}/><footer><span>Apache-2.0 · Research only</span><span>Prompts leave this device when sent to OpenAI.</span></footer></main> }
