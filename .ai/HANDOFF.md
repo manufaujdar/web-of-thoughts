@@ -25,3 +25,10 @@
 ## Developer quality tooling — 11 October 2026
 
 Owner authorized suitable tooling and main-only publication. Existing main CI now runs four frontend unit tests and two actual-built synthetic Chromium/axe checks alongside the retained twelve Python tests, schema/privacy validator, compilation and frontend build. Added native quality/pre-push checks, isolated patched docs tools, offline redacted secrets and workflow analysis, advisory Knip and public static CodeQL (Python/JS). Four shared tooling-contract tests cover scope completeness and checksum/symlink handling. Full toolkit command passes locally. All browser API requests are intercepted; no provider key, private run, model call or scientific result is used. Manual CodeRabbit workflow prepares scope only. Existing dependency advisories and real-provider smoke remain visible; no deployment or scientific superiority claim. Main SHA/hosted status are in the portfolio tooling receipt. Active role: controller/platform engineering to release review; next owner: owning research/application maintainer. Roll back only this tooling commit and composed hook entry.
+
+
+## Compatible dependency fixes — 11 October 2026
+
+- The tooling audit found a source-map-js high advisory and a Vitest mocker moderate advisory. Pin the compatible source-map-js patch 1.2.2 and update the existing Vitest 4.1.10 pin to 4.1.11. No major framework migration or application behavior change.
+- Rerun frontend tests/build, synthetic browser checks and the full owning quality command before main publication. Documentation tooling retains its separate audited lock.
+- No provider/model calls, deployment or service activation; originals retain concurrent changes and their existing indexes.

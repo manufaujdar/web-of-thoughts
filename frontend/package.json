@@ -24,6 +24,9 @@
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
     "knip": "6.41.0",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
+  },
+  "overrides": {
+    "source-map-js": "1.2.2"
   }
 }
