@@ -1,0 +1,16 @@
+#!/bin/sh
+# Repository-owned direct-main gate. Install by composing with existing hooks.
+set -eu
+while read -r local_ref local_sha remote_ref remote_sha; do
+  [ "$remote_ref" = refs/heads/main ] || { echo "Only main publication is configured." >&2; exit 1; }
+  [ "$local_sha" != 0000000000000000000000000000000000000000 ] || { echo "Branch deletion is not a quality-check action." >&2; exit 1; }
+  [ "$(git rev-parse HEAD)" = "$local_sha" ] || { echo "Check out the exact outgoing commit first." >&2; exit 1; }
+  git diff --quiet HEAD -- || { echo "Tracked edits must be preserved and checked separately before publication." >&2; exit 1; }
+  if [ "$remote_sha" != 0000000000000000000000000000000000000000 ]; then
+    git merge-base --is-ancestor "$remote_sha" "$local_sha" || { echo "Reconcile current remote main and recheck before pushing." >&2; exit 1; }
+    python3 tools/quality.py --base "$remote_sha"
+  else
+    echo "Initial main creation needs explicit repository setup; refusing an incomplete range check." >&2
+    exit 1
+  fi
+done

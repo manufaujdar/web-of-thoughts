@@ -15,10 +15,12 @@ jobs:
     timeout-minutes: 10
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.12"
           cache: pip
@@ -43,17 +45,53 @@ jobs:
         working-directory: frontend
     steps:
       - name: Check out repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: "24"
+          node-version: "24.21.0"
           cache: npm
           cache-dependency-path: frontend/package-lock.json
 
       - name: Install pinned frontend dependencies
         run: npm ci
 
+      - name: Run frontend unit tests
+        run: npm test
+
       - name: Type-check and build frontend
         run: npm run build
+
+      - name: Install synthetic-test browser
+        run: npm exec playwright install --with-deps chromium
+
+      - name: Check actual reading controls with synthetic data
+        run: npm run test:browser
+
+      - name: Report unused code and dependencies
+        run: npm run check:unused
+
+  tooling:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '24.21.0'
+      - run: npm ci --prefix frontend
+      - run: npm ci --prefix tools/docs
+      - name: Install SHA256-verified quality tools
+        run: |
+          python3 tools/install_ci_tools.py "$RUNNER_TEMP/quality-bin"
+          echo "$RUNNER_TEMP/quality-bin" >> "$GITHUB_PATH"
+      - name: Check docs, workflows, tool contracts and offline secrets
+        env:
+          MANU_QUALITY_BASE: ${{ github.event.before }}
+        run: python3 tools/quality.py --tooling

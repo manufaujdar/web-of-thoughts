@@ -24,3 +24,8 @@ data/
 frontend/node_modules/
 frontend/dist/
 *.tsbuildinfo
+
+# Synthetic browser artifacts
+**/test-results/
+**/playwright-report/
+tools/docs/node_modules/

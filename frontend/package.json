@@ -7,18 +7,23 @@
     "dev": "vite",
     "build": "tsc -p tsconfig.app.json && vite build",
     "preview": "vite preview",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:browser": "playwright test",
+    "check:unused": "knip --config knip.json --no-exit-code"
   },
   "dependencies": {
     "@vitejs/plugin-react": "6.0.5",
-    "vite": "8.2.1",
-    "typescript": "7.0.2",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "typescript": "7.0.2",
+    "vite": "8.2.1"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.64.0",
     "@types/react": "19.2.18",
     "@types/react-dom": "19.2.4",
+    "knip": "6.41.0",
     "vitest": "4.1.10"
   }
 }
