@@ -21,3 +21,11 @@ links, JSON, Bash and local-root checks pass; disposable feature/plan/tasks and
 external/traversal/symlink negative checks pass. No application/runtime or hosted
 change. Active role: local tooling release/handoff. Next owner: selected project
 product/engineering owner for an authorized task. Existing approval gates apply.
+
+## UX audit maintenance — 11 October 2026
+
+- User authorized audit-based improvements and a Git push. Active role: controller/UI engineering → release review; next owner: product owner for live workspace evaluation.
+- Scope: native browser-local reading preference for larger artifact/final-response text, available on inquiry and workspace screens. Blocked storage preserves the session choice and displays truthful feedback. Team/depth, budgets, provider requests, typed graph records, protocol and scientific claims remain unchanged.
+- Verification: 2 frontend reader tests, 12 Python tests, repository/schema validation, Python compilation and frontend typecheck/production build passed. Actual-source synthetic Chromium workbench check at 390px verified font application across screens and blocked-storage behavior; screenshot inspected.
+- Real-provider smoke skipped: OPENAI_API_KEY is absent; this cosmetic maintenance did not make provider calls. No physical-device, screen-reader or authenticated/live-model flow certification is claimed.
+- Existing lockfile dependency audit reports 1 high and 2 moderate issues in the dev/test dependency tree; no dependency version is added or upgraded here. Publication is a review branch only; no deployment. Roll back by reverting its preference commit.

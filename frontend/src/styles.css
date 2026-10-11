@@ -2,3 +2,13 @@
 /* Keep the hidden native checkbox discoverable when keyboard focus enters a role card. */
 .role-check { cursor: pointer; }
 .role-check:focus-within { outline: 3px solid #a96f3a; outline-offset: 3px; }
+
+.reader-preferences { position: relative; font-size: 13px; }
+.reader-preferences summary { cursor: pointer; min-height: 44px; padding: 12px 4px; }
+.reader-options { position: absolute; right: 0; top: 100%; z-index: 10; width: min(280px, calc(100vw - 40px)); padding: 16px; background: var(--paper); border: 1px solid var(--line); box-shadow: 0 4px 15px #1d252815; }
+.reader-options label { display: block; font-size: 13px; }
+.reader-options select { margin-top: 8px; padding: 10px; min-height: 44px; }
+.reader-options p { color: var(--muted); font-size: 12px; line-height: 1.5; }
+.artifact { font-size: var(--artifact-text-size, 13px); overflow-wrap: anywhere; }
+.final-copy { font-size: calc(var(--artifact-text-size, 13px) + 2px); overflow-wrap: anywhere; }
+@media (max-width: 700px) { .home-nav, .topbar { height: auto; min-height: 78px; flex-wrap: wrap; gap: 8px; padding-block: 10px; } }
