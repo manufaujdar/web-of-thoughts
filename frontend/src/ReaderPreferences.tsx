@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 
 let sessionTextSize = 13;
+let hasUnsavedSessionChoice = false;
 
 export function readTextSize(): number {
+  if (hasUnsavedSessionChoice) return sessionTextSize;
   try { sessionTextSize = localStorage.getItem('wot-reader-text-size') === '16' ? 16 : 13; }
   catch { /* Retain the choice when moving between screens with storage blocked. */ }
   return sessionTextSize;
@@ -10,8 +12,14 @@ export function readTextSize(): number {
 
 export function saveTextSize(size: number): boolean {
   sessionTextSize = size === 16 ? 16 : 13;
-  try { localStorage.setItem('wot-reader-text-size', String(sessionTextSize)); return true; }
-  catch { return false; }
+  try {
+    localStorage.setItem('wot-reader-text-size', String(sessionTextSize));
+    hasUnsavedSessionChoice = false;
+    return true;
+  } catch {
+    hasUnsavedSessionChoice = true;
+    return false;
+  }
 }
 
 export default function ReaderPreferences() {
