@@ -32,3 +32,11 @@ Owner authorized suitable tooling and main-only publication. Existing main CI no
 - The tooling audit found a source-map-js high advisory and a Vitest mocker moderate advisory. Pin the compatible source-map-js patch 1.2.2 and update the existing Vitest 4.1.10 pin to 4.1.11. No major framework migration or application behavior change.
 - Rerun frontend tests/build, synthetic browser checks and the full owning quality command before main publication. Documentation tooling retains its separate audited lock.
 - No provider/model calls, deployment or service activation; originals retain concurrent changes and their existing indexes.
+
+## Portfolio documentation maintenance — 20 October 2026
+
+- Objective/scope: improve task-based documentation navigation and file placement under the authorized portfolio maintenance request. Active gear: documentation; owner: portfolio coordinator. Preserve runtime code, canonical paths and existing research/release gates.
+- Change: replace the stale documentation status list with linked task routes and a source/folder map; connect the existing entry point. Correct the obsolete missing-license claim against the tracked Apache-2.0 license.
+- Verification: scoped Markdown lint, offline repository-relative links and `git diff --check` pass. No application behavior, identity, personal data, provider request, training, experiment result, deployment or release is changed.
+- Review boundary: the portfolio CodeRabbit installer returned HTTP 403; no CodeRabbit code review or substitute code review is claimed. GitHub readiness/comments were inventoried separately at the current PR heads.
+- Next owner/action: coordinator reviews this documentation-only commit and completes the existing publication gates; owning engineering backlog remains authoritative. Rollback: revert this documentation commit.
