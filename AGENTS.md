@@ -31,3 +31,9 @@ An experiment designer must not be the only auditor of the resulting claim.
 Read `.ai/TEAM.md` before multi-role or idea-to-release work. Use its explicit
 gears and keep the task contract in `.ai/HANDOFF.md`; protocol, matched-budget
 evaluation, schema validation, and evidence boundaries remain authoritative.
+
+## Shared AI-agent resources
+
+When a task needs a shared role or resource, read [MASTER_AI_AGENTS.md](MASTER_AI_AGENTS.md).
+Select only the relevant definition. Existing project roles, scoped instructions,
+data boundaries, source-of-truth records, and release gates retain authority.
