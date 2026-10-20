@@ -6,6 +6,9 @@ This repository is a local-first research foundation, not a claim of proven supe
 
 > **Evidence status:** functional research prototype, unvalidated method. No completed evaluation in this repository establishes that WoT outperforms direct prompting, Chain of Thought, Tree of Thoughts, or Graph of Thoughts.
 
+Use the [documentation index](docs/DOCUMENTATION_INDEX.md) to find the method,
+application, validation and file-placement guides.
+
 ## Live application
 
 The included application runs six role-specific OpenAI agents, streams their work in real time, connects their public decision artifacts through typed graph edges, performs cross-agent peer review, and asks a master evaluator to compare all viable possibilities before answering. Production code has no canned-response fallback: a run requires a server-side `OPENAI_API_KEY` and uses the OpenAI Responses API.
