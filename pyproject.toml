@@ -12,7 +12,7 @@ license = "Apache-2.0"
 authors = [{ name = "Web of Thoughts contributors" }]
 dependencies = [
   "fastapi>=0.116,<1",
-  "openai>=2.20,<3",
+  "openai>=2.20,<4",
   "pydantic>=2.11,<3",
   "uvicorn[standard]>=0.35,<1"
 ]
